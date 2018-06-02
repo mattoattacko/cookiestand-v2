@@ -63,6 +63,7 @@ function makeHeaderRow() {
 
 };
 
+for(var k = 0; k < hours.length; k++) {
     thEl = document.createElement('th');
     thEl.textContent = "Pat's Daily Store Data";
     trEl.appendChild(thEl);
@@ -71,7 +72,96 @@ function makeHeaderRow() {
 console.log(checkheader);
 
 
-//table data
+//table data rows
+
+function makeBodyRows() {
+    for(var l = 0; l < allLocations.length; l++) {
+        var cookiedata = document.getElementById('cookiedata');
+        var trEl = document.createElement('tr');
+        var thEl = document.createElement('th');
+        thEl.textContent = allLocations[l].name;
+        trEl.appendChild(thEl);
+    for(var m = 0; m < hours.length; m++) {
+        var tdEl = document.createElement('td');
+        tdEl.textContent = allLocations[l].randCookiesSoldByHour[m];
+        trEl.appendChild(tdEl);
+    };
+    thEl = document.createElement('th');
+    thEl.textContent = allLocations[l].totalCookies;
+    trEl.appendChild(thEl);
+    cookiedata.appendChild(trEl);
+    };
+};
+
+makeBodyRows();
+
+//footer rows
+
+function makeFooterRow() {
+    var cookiedata = document.getElementById('cookiedata');
+    var trEl = document.createElement('tr');
+    var thEl = document.createAttribute('th');
+    var netTotals = 0;
+    thEl.textContent = "Pat's Hourly Store Totals";
+    trEl.appendChild(thEl);
+
+    for(var p = 0; p < hours.length; p++) {
+        var patHourlyTotals = 0;
+    for(var q = 0; q < allLocations.length; q++) {
+        patHourlyTotals = patHourlyTotals + allLocations[q].randCookiesSoldByHour[p];
+    };
+    thEl = document.createElement('th');
+    thEl.textContent = patHourlyTotals;
+    trEl.appendChild(thEl);
+    };
+
+    for(var r = 0; r < allLocations.length; r++) {
+        netTotals = netTotals + allLocations[r].netTotals;
+    };
+    thEl = document.createElement('th');
+    thEl.textContent = netTotals;
+    trEl.appendChild(thEl);
+    table.appendChild(trEl);
+};
+
+    makeFooterRow();
+
+    console.log(checkFooter);
+
+
+//Making our event. Confirm w/ smarter people if even close
+
+function storeEvent(event) {
+    event.preventDefault();
+//checkdemo for fix
+    var storename = document.getElementById('storename').value;
+    var mincust = Number(document.getElementById('mincust').value);
+    var maxcust = Number(document.getElementById('maxcust').value);
+    var avgcook = Number(document.getElementById('avgcook').value);
+    
+    new MakeLocation(storename, mincust, maxcust, avgcook);
+
+    var t = allLocations.length - 1;
+    var cookiedata = document.getElementById('cookiedata');
+    document.getElementById('cookiedata').deleteRow(allLocations.length);
+    var trEl = document.createElement('tr');
+    var thEl = document.createElement('th');
+    thEl.textContent = allLocations[t].name;
+    trEl.appendChild(thEl);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 var firstAndPikeTable = ["First and Pike", 2, 4, 6, 8, 10];
 var seatacAirportTable = ["Seatac Airport", 3, 5, 7, 9, 1];
 var seattleCenterTable = ["Seattle Center", ];
