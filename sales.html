@@ -1,11 +1,46 @@
-<!DOCTYPE>
+<!DOCTYPE html>
 <html>
     <head>
-        <title>Pat's Tables</title>
+        <title>Salmon Cookies</title>
+        <link rel="stylesheet" href="style.css"/>
     </head>
+
     <body>
-        <h3>Pat's F'ing Salmon Cookies Sales Data Tables</h3>
-        <table id='cookiedata'></table>
+        <h1><center>Pat's f'ing Salmon Cookies...</center><br><br></h1>
+
+        <center><img src="img/salmon.png" alt="This freaking salmon man..."></center>            
+       
+        <form id="store-form">
+            <fieldset>
+                <legend>Add Store Locations</legend>
+
+                <label for="storename">Name of Location</label>
+                <input name="storename" type="text"/>
+
+                <label for="mincust">Minimum Customers Per Hour</label>
+                <input name="mincust" type="text"/>
+
+                <label for="maxcust">Maximum Customers Per Hour</label>
+                <input name="maxcust" type="text"/>
+
+                <label for="avgcook">Average Cookies Per Sale</label>
+                <input name="avgcook" type="text"/>
+
+                <button type="submit">Create A New Store</button>
+
+            </fieldset>
+        </form>
+
+        <table id="cookiedata">
+            <thead id="tableHead">
+            </thead>
+            <tbody id="tableBody">
+            </tbody>
+            <tfoot id="tableFoot"></tfoot>
+        </table>
+
         <script src="app.js"></script>
+
     </body>
+
 </html>

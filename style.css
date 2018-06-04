@@ -1,35 +1,36 @@
 * {
-    font-family: Helvetica, sans-serif;
-    background-color: rgb(3, 11, 117);
+    background-color: gray;
 }
 
-h1 {
-    color: rgb(60, 255, 0);
-    font-size: 1.5em;
-}
-h2 {
-    color: rgb(60, 255, 0);
-    font-size: 1.1em;
-}
+/* table,
+tr,
+td {
+    background-color: rgb(17, 17, 17);
+    border: 5px solid rgb(6, 7, 5);
+    border-radius: 2px;
+    padding: 1px;
+} */
 
-h3 {
-    color: rgb(60, 255, 0);
-    font-size: 1.1em;
-}
+td {
+    border-radius: 1px;
+    color: rgb(0, 255, 34);
+    background-color: rgb(63, 63, 63);
+    font-family: sans-serif;
+} 
 
-p {
-    color: white;
-    text-indent: 50px;
-}
-
-ul {
-    color: white;
+table {
+    border-collapse: collapse;
+    width: 100%;
 }
 
-section {
-    width: 500px;
- }
+th, td {
+    text-align: left;
+    padding: 8px;
+}
 
- ol {
+tr:nth-child(even){background-color: #f2f2f2}
+
+th {
+    background-color: rgb(42, 43, 42);
     color: white;
 }

@@ -1,217 +1,220 @@
-'use strict';
-
+'use strict';   
+//first we add an array that holds the hours the stores will use
 var hours = ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm', '8pm'];
-
+//second we need an array to hold all of our locations
 var allLocations = [];
-var totalCookiesByHour = 0;
-var totalCookiesByStore = 0;
+//this var has all the cookies from all the stores
 var netTotal = 0;
-
-// allLocations[0].calcRandCustByHour();
+//ask about allLocations[0].calcRandCustByHour();?
 
 function MakeLocation(name, minCustPerHour, maxCustPerHour, avgCookiesSoldPerHour) {
-    this.name = name;
-    this.minCustPerHour = minCustPerHour;
-    this.maxCustPerHour = maxCustPerHour;
-    this.avgCookiesSoldPerHour = avgCookiesSoldPerHour;
+  this.name = name;
+  this.minCustPerHour = minCustPerHour;
+  this.maxCustPerHour = maxCustPerHour;
+  this.avgCookiesSoldPerHour = avgCookiesSoldPerHour;
 
-    //these are the questions we need to solve
-    this.randCustByHour = [];
-    this.randCookiesSoldByHour = [];
-    this.totalCookies = 0;
-    allLocations.push(this);
-    console.log(this);
+  //these are the questions we need to solve for
+  this.randCustPerHour = [];
+  this.cookiesSoldPerHour = [];
+  this.totalCookiesSoldPerStore = 0;
+  allLocations.push(this);
 
-    //screw the functions for now. lets do something that works. 
-
-        for(var i = 0; i < hours.length; i++) {
-            this.randCustByHour.push(Math.floor(Math.random() * (this.maxCustPerHour + 1)) + this.minCustPerHour);
-            console.log(this.randCustByHour[i]);
+  console.log(this);
+}
+//Use prototype to calcRandCustByHour. Check code demo i think
+//need to figure out randCustPerHour to figure out cookiesSoldPerHour
+    MakeLocation.prototype.calcRanCustByHour = function () {
+        for (var i = 0; i < hours.length; i++) {
+        this.randCustPerHour.push(Math.floor(Math.random() * (this.maxCustPerHour - this.minCustPerHour + 1)) + this.minCustPerHour);
     }
 
-         for(var j = 0; j < hours.length; j++) {
-            this.randCookiesSoldByHour.push(Math.round(this.avgCookiesSoldPerHour * this.randCustByHour[j]));
-            this.totalCookies += this.randCookiesSoldByHour
-            console.log(this.randCookiesSoldByHour[j]);
-            console.log(this.randCustByHour[j]);
-            
-    }
-    
-    console.log(this.totalCookies);
+  console.log(this.randCustPerHour);
 };
-        
-//remember to call the methods in the constructor that the now prototypes available to the new objects that the constructor will make using MakeLocation
-//this.calcRandCustByHour();
+//Use prototype to calcCookiesSoldPerHour
+//avgCustPerHour x avgCookiesSoldPerHour should give cookiesSoldPerHour back into our constructor
+//we need to figure this out first since we need cookiesSoldPerHour to figure out totalCookiesSoldPerStore
+    MakeLocation.prototype.calcCookiesSoldPerHour = function () {
+        for (var j = 0; j < hours.length; j++) {
+        this.cookiesSoldPerHour.push(Math.round(this.randCustPerHour[j] * this.avgCookiesSoldPerHour));
+  }
 
-function makeSalmonCookieStores() {
-    new MakeLocation('First and Pike', 23, 65, 6.3);
-    new MakeLocation('SeaTac Airport', 3, 24, 1.2);
-    new MakeLocation('Seattle Center', 11, 38, 3.7);
-    new MakeLocation('Capitol Hill', 20, 38, 2.3);
-    new MakeLocation('Alki', 2, 16, 4.6);
+  console.log(this.cookiesSoldPerHour);
 };
+//Use prototype to calctotalCookiesSoldPerStore
+//use += event handler/method?
+    MakeLocation.prototype.calctotalCookiesSoldPerStore = function () {
+        for (var k = 0; k < hours.length; k++) {
+        this.totalCookiesSoldPerStore += this.cookiesSoldPerHour[k];
+  }
 
-makeSalmonCookieStores();
-
-function makeHeaderRow() {
-    var cookiestands = document.getElementById('cookiedata');
-    var trEl = document.createElement('tr');
-    var trEl = document.createElement('th');
-    thEl.textContent = '';
-    //I think that added in the blank box at the front of the table
-    trEl.appendChild(thEl);
-
+  console.log(this.totalCookiesSoldPerStore);
 };
+//use a function? Fix later. Ask smarter people
+function calcTotal() {
+  for (var l = 0; l < allLocations.length; l++) {
+    netTotal += allLocations[l].totalCookiesSoldPerStore;
+  }
+}
 
-for(var k = 0; k < hours.length; k++) {
-    thEl = document.createElement('th');
-    thEl.textContent = "Pat's Daily Store Data";
-    trEl.appendChild(thEl);
-    table.appendChild(trEl);
+function makeSalmonCookieStore() {
+  new MakeLocation('First and Pike', 23, 65, 6.3);
+  new MakeLocation('SeaTac Airport', 3, 24, 1.2);
+  new MakeLocation('Seattle Center', 11, 38, 3.7);
+  new MakeLocation('Capitol Hill', 20, 38, 2.3);
+  new MakeLocation('Alki', 2, 16, 4.6);
+}
+//call the function? 
+//push this stuff into our array withe all the locations and such
+function allLocationsDataArray() {
+  for (var m = 0; m < allLocations.length; m++) {
+    allLocations[m].calcRanCustByHour();
+    allLocations[m].calcCookiesSoldPerHour();
+    allLocations[m].calctotalCookiesSoldPerStore();
+  }
+}
+    console.log(allLocationsDataArray);
 
-console.log(checkheader);
-
-
-//table data rows
-
-function makeBodyRows() {
-    for(var l = 0; l < allLocations.length; l++) {
-        var cookiedata = document.getElementById('cookiedata');
+    //use the header row maker shown in class or from TA
+var makeHeaderRowEl = document.getElementById('tableHead');
+    function makeHeaderRow(inputArray) {
         var trEl = document.createElement('tr');
+        var blankEl = document.createElement('th');
+        trEl.appendChild(blankEl);
+        for (var n = 0; n < inputArray.length; n++) {
         var thEl = document.createElement('th');
-        thEl.textContent = allLocations[l].name;
+        thEl.textContent = inputArray[n];
         trEl.appendChild(thEl);
-    for(var m = 0; m < hours.length; m++) {
-        var tdEl = document.createElement('td');
-        tdEl.textContent = allLocations[l].randCookiesSoldByHour[m];
-        trEl.appendChild(tdEl);
-    };
-    thEl = document.createElement('th');
-    thEl.textContent = allLocations[l].totalCookies;
-    trEl.appendChild(thEl);
-    cookiedata.appendChild(trEl);
-    };
-};
-
-makeBodyRows();
-
-//footer rows
-
-function makeFooterRow() {
-    var cookiedata = document.getElementById('cookiedata');
-    var trEl = document.createElement('tr');
-    var thEl = document.createAttribute('th');
-    var netTotals = 0;
-    thEl.textContent = "Pat's Hourly Store Totals";
-    trEl.appendChild(thEl);
-
-    for(var p = 0; p < hours.length; p++) {
-        var patHourlyTotals = 0;
-    for(var q = 0; q < allLocations.length; q++) {
-        patHourlyTotals = patHourlyTotals + allLocations[q].randCookiesSoldByHour[p];
-    };
-    thEl = document.createElement('th');
-    thEl.textContent = patHourlyTotals;
-    trEl.appendChild(thEl);
-    };
-
-    for(var r = 0; r < allLocations.length; r++) {
-        netTotals = netTotals + allLocations[r].netTotals;
-    };
-    thEl = document.createElement('th');
-    thEl.textContent = netTotals;
-    trEl.appendChild(thEl);
-    table.appendChild(trEl);
-};
-
-    makeFooterRow();
-
-    console.log(checkFooter);
+  }
+    var totalEl = document.createElement('th');
+        totalEl.textContent = 'Total';
+        trEl.appendChild(totalEl);
+        makeHeaderRowEl.appendChild(trEl);
+}
+    console.log(makeHeaderRowEl);
 
 
-//Making our event. Confirm w/ smarter people if even close
+function makeBodyRows(name, inputArray, totalCookiesSoldPerStore) {
+        var bodyRowEl = document.getElementById('tableBody');
+        var trEl = document.createElement('tr');
+        var storeNameEl = document.createElement('td');
+            storeNameEl.textContent = name;
+            trEl.appendChild(storeNameEl);
+    //skip o since it looks like a zero? Ask
+    for (var o = 0; o < inputArray.length; o++) {
+         var tdEl = document.createElement('td');
+            tdEl.textContent = inputArray[o];
+            trEl.appendChild(tdEl);
+  }
+    console.log(makeBodyRows);
 
+  var locationsTotalCookies = document.createElement('td');
+    locationsTotalCookies.textContent = totalCookiesSoldPerStore;
+     trEl.appendChild(locationsTotalCookies);
+     bodyRowEl.appendChild(trEl);
+}
+//p is for push! One push ah ha ha. Two push ah ha ha. Three push ah ha ha. Three pushes! - The Count
+function pushTheData() {
+  for (var p = 0; p < allLocations.length; p++) {
+    makeBodyRows(allLocations[p].name, allLocations[p].cookiesSoldPerHour, allLocations[p].totalCookiesSoldPerStore);
+  }
+}
+    console.log(pushTheData);
+
+//yo dog. i heard you like for loops, so I put a for loop in a for loop so you can for loop while you for loop. It's for loops all the way down
+function makeFooterRow(inputArray) {
+  var tableFoot = document.getElementById('tableFoot');
+  tableFoot.innerHTML = ''; //adds the blank box I think? console log this stuff
+  var trEl = document.createElement('tr');
+  var textTotalEl = document.createElement('td');
+  textTotalEl.textContent = 'Total';
+  trEl.appendChild(textTotalEl);
+  for (var q = 0; q < hours.length; q++) { 
+    var hrTotal = 0;
+  for (var r = 0; r < inputArray.length; r++) {
+      hrTotal += inputArray[r].cookiesSoldPerHour[q];
+  }
+    var tdEl = document.createElement('td');
+    tdEl.textContent = hrTotal;
+    trEl.appendChild(tdEl);
+  }
+    var netTotalEl = document.createElement('td');
+    netTotalEl.textContent = netTotal;
+    trEl.appendChild(netTotalEl);
+    tableFoot.appendChild(trEl);
+}
+    // console.log(arrayNetTotal); why doesn't this log work??
+
+//Rachel's code. Use if necessary.
+// make totals row
+// function makeTotalsRow() {
+//     // var cookiestands = document.getElementById('cookiestands');
+//     var trEl = document.createElement('tr');
+//     var tdEl = document.createElement('td');
+//     tdEl.textContent = 'Totals';
+//     trEl.appendChild(tdEl);
+  
+//     for (var i = 0; i < hours.length; i++) {
+//       var totalCookiesByHour = 0;
+//       for (var j = 0; j < allLocations.length; j++) {
+//         totalCookiesByHour += allLocations[j].cookiesSoldByHour[i];
+  
+//       }
+//       tdEl = document.createElement('td');
+//       tdEl.textContent = totalCookiesByHour;
+//       trEl.appendChild(tdEl);
+//       totalTotal += totalCookiesByHour;
+//     }
+//     tdEl = document.createElement('td');
+//     tdEl.textContent = totalTotal;
+//     trEl.appendChild(tdEl);
+  
+//     cookiestands.appendChild(trEl);
+//   };
+  
+//   function render() {
+//     totalTotal = 0;
+//     cookiestands.innerHTML = '';
+//     makeHeaderRowEl();
+//     for (var j = 0; j < allLocations.length; j++) {
+//       makeOneDataRow(j);
+//     }
+//     makeTotalsRow();
+//   }
+
+//Making our event. Comfirm w/ smarter people if we are even close...
+//work work till html added in. Don't stress.
+var storeForm = document.getElementById('store-form');
+
+//check demo for fix!
+//create an event handler for the submission of a new store
 function storeEvent(event) {
-    event.preventDefault();
-//checkdemo for fix
-    var storename = document.getElementById('storename').value;
-    var mincust = Number(document.getElementById('mincust').value);
-    var maxcust = Number(document.getElementById('maxcust').value);
-    var avgcook = Number(document.getElementById('avgcook').value);
-    
-    new MakeLocation(storename, mincust, maxcust, avgcook);
+//it's looking for the event in the function
+  event.preventDefault();
 
-    var t = allLocations.length - 1;
-    var cookiedata = document.getElementById('cookiedata');
-    document.getElementById('cookiedata').deleteRow(allLocations.length);
-    var trEl = document.createElement('tr');
-    var thEl = document.createElement('th');
-    thEl.textContent = allLocations[t].name;
-    trEl.appendChild(thEl);
-}
+  console.log(event.target.storename.value);
 
-
-
-
-
-
-
-
-
-
-
-
-
-var firstAndPikeTable = ["First and Pike", 2, 4, 6, 8, 10];
-var seatacAirportTable = ["Seatac Airport", 3, 5, 7, 9, 1];
-var seattleCenterTable = ["Seattle Center", ];
-var capitolHillTable = ["Capitol Hill", ];
-var alkiTable = ["Alki", ];
-//access the table element in the html
-var tableEl = document.getElementById("cookiedata");
-
-function headerRowMaker(inputArray) {
-    //make a table row
-    var trEl = document.createElement('tr');
-    trEl.appendChild(document.createElement('td'));
-    //iterate through array
-    for (var i = 0; i < inputArray.length; i++) {
-        var tdEl = document.createElement("td"); //create
-        tdEl.textContent = inputArray[i]; //content
-        trEl.appendChild(tdEl); //add cell to the row
+    if(!event.target.storename.value || !event.target.mincust.value || !event.target.maxcust.value || !event.target.avgcook.value) {
+    return console.log('Fields cannot be empty.');
     }
-    tableEl.appendChild(trEl); //add row to the table
+//creating a new location to populate into makeLocation (our first constructor funtion) that will push into allLocations (our first empty array at the top)
+    var patAddedNewViaForm = new MakeLocation(event.target.storename.value, event.target.mincust.value, event.target.maxcust.value, event.target.avgcook.value); 
+     patAddedNewViaForm.calcRanCustByHour();
+     patAddedNewViaForm.calcCookiesSoldPerHour();
+     patAddedNewViaForm.calctotalCookiesSoldPerStore();
+     makeBodyRows(patAddedNewViaForm.name, patAddedNewViaForm.cookiesSoldPerHour, patAddedNewViaForm.totalCookiesSoldPerStore);
+     makeFooterRow(allLocations);
 }
+//event listener for new store submission form look at pg 254 in your books
+storeForm.addEventListener('submit', storeEvent); 
+//clear the form by setting the value = null
+//our math is wrong somewhere... no clue where... but it is. I think. who knows.
 
-MakeLocations.prototype.dataRowMaker = function(inputArray) {
-    //make a table row
-    var trEl = document.createElement("tr");
-    //iterate through array
-    for (var i = 0; i < inputArray.length; i++) {
-        var tdEl = document.createElement("td"); //create
-        tdEl.textContent = inputArray[i]; //content
-        trEl.appendChild(tdEl); //add cell to the row
-    }
-    tableEl.appendChild(trEl); //add row to the table
-}
-
-//allLocations[0].dataRowMaker();
-
-headerRowMaker(hours);
-dataRowMaker(firstAndPikeTable);
-dataRowMaker(seatacAirportTable);
-dataRowMaker(seattleCenterTable);
-dataRowMaker(capitolHillTable);
-dataRowMaker(alkiTable);
-//consider a for loop for the hours
-//create a th element
-//give the th element some text content like hours [i];
-//appendChild
-
-//create a th element
-//give the th element text content 'Daily Location Total'
-//append child
-
-//remember to call makeHeaderRow();
-
-//remember to put an "empty" <th></th> element at the top of the table to push the "6am" cell over to the right.
+//Hello, is this functions?
+//NO THIS IS PATRICK!
+makeSalmonCookieStore();
+allLocationsDataArray();
+calcTotal();
+makeHeaderRow(hours);
+pushTheData();
+makeFooterRow(allLocations); 
+//ask why no storeEvent()?
